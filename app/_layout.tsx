@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BlinkProvider, createTamagui, tamaguiDefaultConfig, Theme, BlinkToastProvider } from '@blinkdotnew/mobile-ui';
+import { CameraDemoProvider } from '@/context/CameraDemoContext';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 
 const queryClient = new QueryClient({
