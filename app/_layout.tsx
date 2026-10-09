@@ -36,12 +36,14 @@ export default function RootLayout() {
       <Theme name="dark">
         <QueryClientProvider client={queryClient}>
           <BlinkToastProvider>
-            <WebStyleReset />
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-            <StatusBar style="auto" />
+            <CameraDemoProvider>
+              <WebStyleReset />
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+              <StatusBar style="auto" />
+            </CameraDemoProvider>
           </BlinkToastProvider>
         </QueryClientProvider>
       </Theme>
