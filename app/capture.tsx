@@ -1,53 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'expo-router';
-import { Button, Sparkles, XStack, YStack } from '@blinkdotnew/mobile-ui';
+import { Button, XStack, YStack } from '@blinkdotnew/mobile-ui';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { CameraTopControls } from '@/components/camera/CameraTopControls';
-import { CameraModeSelector } from '@/components/camera/CameraModeSelector';
-import { CameraBottomControls } from '@/components/camera/CameraBottomControls';
-import { CameraOptionsSheet } from '@/components/camera/CameraOptionsSheet';
-import { FilterSheet } from '@/components/filters/FilterSheet';
-import { BottomNavigation } from '@/components/navigation/BottomNavigation';
+import { AppHeader } from '@/components/common/AppHeader';
 import { PhotoPreview } from '@/components/common/PhotoPreview';
 import { Label } from '@/components/common/Label';
-import { colors, layout } from '@/constants/theme';
-import { demoPortrait } from '@/data/demoMedia';
+import { colors } from '@/constants/theme';
 import { useCameraDemo } from '@/context/CameraDemoContext';
-
-type Panel = 'filters' | 'options' | 'settings' | null;
 
 export default function CaptureScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const [panel, setPanel] = useState<Panel>(null);
-  const { gridOn, cameraFacing, selectedFilter } = useCameraDemo();
+  const { height, width } = useWindowDimensions();
+  const { selectedFilter } = useCameraDemo();
   const filterIndex = Math.max(0, ['Original', 'Trong trẻo', 'Ấm áp', 'Lạnh', 'Hàn Quốc', 'Nhật Bản', 'Vintage', 'Film', 'Cinematic', 'Dreamy', 'Sunset', 'Đen trắng'].indexOf(selectedFilter));
-
   return (
-    <YStack flex={1} backgroundColor={colors.black}>
-      <YStack flex={1} marginHorizontal={layout.pageGutter} marginTop={5} marginBottom={10}
-        borderRadius={20} overflow="hidden" backgroundColor="#151416">
-        <PhotoPreview uri={cameraFacing ? demoPortrait : demoPortrait} filterIndex={filterIndex} />
-        <YStack position="absolute" top={0} left={0} right={0} backgroundColor="rgba(10,11,11,0.18)"
-          paddingTop={Math.max(4, insets.top > 15 ? 2 : 10)}>
-          <CameraTopControls onOptions={() => setPanel('options')} onSettings={() => setPanel('settings')} />
-        </YStack>
-        {gridOn && <YStack position="absolute" top="24%" bottom="24%" left="8%" right="8%"
-          borderLeftWidth={1} borderRightWidth={1} borderColor="rgba(255,255,255,0.42)" justifyContent="space-around">
-          <YStack height={1} backgroundColor="rgba(255,255,255,0.42)" />
-          <YStack height={1} backgroundColor="rgba(255,255,255,0.42)" />
-        </YStack>}
-        <YStack position="absolute" left={0} right={0} bottom={0}>
-          <CameraBottomControls onFilters={() => setPanel('filters')} />
-          <XStack justifyContent="center" alignItems="center" gap={26} height={34} backgroundColor="rgba(10,11,11,0.42)">
-            <CameraModeSelector onAI={() => router.push('/ai')} />
-          </XStack>
+    <YStack flex={1} backgroundColor={colors.black} paddingTop={Math.max(insets.top, 12)}
+      paddingBottom={Math.max(insets.bottom, 10)} paddingHorizontal={14}>
+      <AppHeader title="Ảnh vừa chụp" onBack={() => router.back()}
+        right={<Button chromeless onPress={() => router.push('/compare')}><Label size={13} color="#dab3de">So sánh</Label></Button>} />
+      <YStack flex={1} minHeight={260} paddingVertical={10}>
+        <YStack flex={1} minHeight={240} borderRadius={18} overflow="hidden">
+          <PhotoPreview filterIndex={filterIndex} />
         </YStack>
       </YStack>
-      <BottomNavigation active="Camera" />
-      {panel === 'filters' && <FilterSheet onClose={() => setPanel(null)} />}
-      {(panel === 'options' || panel === 'settings') && <CameraOptionsSheet onClose={() => setPanel(null)} />}
-      {panel === 'settings' && <YStack pointerEvents="none" position="absolute" top={insets.top + 52} left={0}><Label size={1} color={colors.black}> </Label></YStack>}
+      <XStack gap={12} paddingBottom={10}>
+        <Button flex={1} height={50} borderRadius={25} backgroundColor="#292729" borderColor={colors.line} borderWidth={1}
+          onPress={() => router.replace('/')}><Label size={14}>Chụp lại</Label></Button>
+        <Button flex={1} height={50} borderRadius={25} backgroundColor="#f5f2f2" onPress={() => router.push('/editor')}>
+          <Label size={14} color="#171516" weight="700">Dùng ảnh</Label>
+        </Button>
+      </XStack>
     </YStack>
   );
 }

@@ -26,7 +26,7 @@ export default function CapturePreviewScreen() {
       </YStack>
       <XStack gap={12} paddingBottom={10}>
         <Button flex={1} height={50} borderRadius={25} backgroundColor="#292729" borderColor={colors.line} borderWidth={1}
-          onPress={() => router.replace('/capture')}><Label size={14}>Chụp lại</Label></Button>
+          onPress={() => router.replace('/')}><Label size={14}>Chụp lại</Label></Button>
         <Button flex={1} height={50} borderRadius={25} backgroundColor="#f5f2f2" onPress={() => router.push('/editor')}>
           <Label size={14} color="#171516" weight="700">Dùng ảnh</Label>
         </Button>

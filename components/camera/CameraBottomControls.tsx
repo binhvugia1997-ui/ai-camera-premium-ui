@@ -25,7 +25,7 @@ export function CameraBottomControls({ onFilters }: { onFilters: () => void }) {
           overflow="hidden" borderColor="rgba(255,255,255,0.55)" borderWidth={1} pressStyle={{ opacity: 0.8 }}>
           <PhotoPreview uri={demoGallery[1]} />
         </Button>
-        <Button onPress={() => router.push('/capture-preview')} width={66} height={66} padding={0} borderRadius={34}
+        <Button onPress={() => router.push('/capture')} width={66} height={66} padding={0} borderRadius={34}
           backgroundColor="#f8f7f5" borderColor="#ffffff" borderWidth={4}
           accessibilityLabel="Chụp ảnh mẫu" pressStyle={{ scale: 0.94, opacity: 0.88 }}>
           <YStack flex={1} borderRadius={32} backgroundColor="#faf9f8" />
